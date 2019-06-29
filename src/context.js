@@ -22,6 +22,12 @@ class RoomProvider extends PureComponent {
     }));
   }
 
+  getRoom = slug => {
+    const tempRooms = [...this.state.rooms];
+    const room = tempRooms.find(room => room.slug === slug);
+    return room;
+  };
+
   formatData = items => {
     return items.map(item => {
       const id = item.sys.id;
@@ -34,7 +40,7 @@ class RoomProvider extends PureComponent {
 
   render() {
     return (
-      <RoomContext.Provider value={{ ...this.state }}>
+      <RoomContext.Provider value={{ ...this.state, getRoom: this.getRoom }}>
         {this.props.children}
       </RoomContext.Provider>
     );
