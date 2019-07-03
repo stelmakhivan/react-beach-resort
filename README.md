@@ -1,6 +1,6 @@
 # This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). [![Netlify Status](https://api.netlify.com/api/v1/badges/9857f2be-b7a4-404c-9b23-51c457d098b9/deploy-status)](https://app.netlify.com/sites/phone-e-commerce/deploys)
 
-## Visit for preview [Netlify](https://phone-e-commerce.netlify.com/)
+## Visit for preview [Netlify](https://react-beach-resort-scratch.netlify.com/)
 
 ## Available Scripts
 
