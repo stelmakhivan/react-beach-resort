@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import items from './data';
+import Client from './Contentful';
 
 const RoomContext = React.createContext();
 
@@ -20,21 +20,34 @@ class RoomProvider extends PureComponent {
     pets: false
   };
 
+  getData = async () => {
+    try {
+      const response = await Client.getEntries({
+        content_type: 'beachResortRoom',
+        order: 'fields.price'
+      });
+      const { items } = response;
+      const rooms = this.formatData(items);
+      const featuredRooms = rooms.filter(room => room.featured === true);
+
+      const maxPrice = Math.max(...rooms.map(item => item.price));
+      const maxSize = Math.max(...rooms.map(item => item.size));
+
+      this.setState(prevState => ({
+        rooms: [...prevState.rooms, ...rooms],
+        sortedRooms: [...prevState.sortedRooms, ...rooms],
+        featuredRooms: [...prevState.featuredRooms, ...featuredRooms],
+        loading: !prevState.loading,
+        maxPrice,
+        maxSize
+      }));
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+
   componentDidMount() {
-    const rooms = this.formatData(items);
-    const featuredRooms = rooms.filter(room => room.featured === true);
-
-    const maxPrice = Math.max(...rooms.map(item => item.price));
-    const maxSize = Math.max(...rooms.map(item => item.size));
-
-    this.setState(prevState => ({
-      rooms: [...prevState.rooms, ...rooms],
-      sortedRooms: [...prevState.sortedRooms, ...rooms],
-      featuredRooms: [...prevState.featuredRooms, ...featuredRooms],
-      loading: !prevState.loading,
-      maxPrice,
-      maxSize
-    }));
+    this.getData();
   }
 
   getRoom = slug => {
